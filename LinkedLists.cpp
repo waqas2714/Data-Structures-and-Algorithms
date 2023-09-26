@@ -60,6 +60,52 @@ void printList(node* head)
     cout << "NULL\n";
 }
 
+// void insertAtPosition(node* &head, int position, int value){
+//     node* temp = head;
+//     node* prevNode;
+//     node* newNode = new node(value);
+//     for (int i = 0; i < position - 1; i++)
+//     {
+//         if (temp->next != NULL && i != position)
+//         {
+//             prevNode = temp;
+//             temp = temp->next;
+//         }else{
+//             cout << "Position is greater than the linked list\n";
+//             return;
+//         }        
+//     }
+//     prevNode->next = newNode;
+//     newNode->next = temp;
+// }
+
+void insertAtPosition(node* &head, int position, int value){
+    node* temp = head;
+    node* prevNode = nullptr; // Initialize prevNode to nullptr
+    node* newNode = new node(value);
+
+    if (position == 0) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    for (int i = 0; i < position; i++) {
+        if (temp != NULL) {
+            prevNode = temp;
+            temp = temp->next;
+        } else {
+            cout << "Position is greater than the linked list\n";
+            delete newNode; // Clean up the unused node
+            return;
+        }
+    }
+
+    prevNode->next = newNode;
+    newNode->next = temp;
+}
+
+
 int main()
 {
     node* head = NULL;
@@ -67,6 +113,7 @@ int main()
     insertAtTail(head, 2);
     insertAtTail(head, 3);
     insertAtHead(head, 4);
+    insertAtPosition(head, 2, 69);
     printList(head);
     return 0;
 }
