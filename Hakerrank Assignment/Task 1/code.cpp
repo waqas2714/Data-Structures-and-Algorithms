@@ -6,18 +6,27 @@ string ltrim(const string &);
 string rtrim(const string &);
 vector<string> split(const string &);
 
-/*
- * Complete the 'nonDivisibleSubset' function below.
- *
- * The function is expected to return an INTEGER.
- * The function accepts following parameters:
- *  1. INTEGER k
- *  2. INTEGER_ARRAY s
- */
 
-int nonDivisibleSubset(int k, vector<int> s)
-{
-    cout << "HELLO WORLD!!!";
+int nonDivisibleSubset(int k, vector<int> s) {
+    vector<int> count(k, 0);
+
+    for (int i : s) {
+        int remainder = i % k;
+        count[remainder]++;
+    }
+
+    int ans = min(count[0], 1);  // Handling case 1
+
+    if (k % 2 == 0) {                // Handling even exception case
+        ans += min(count[k / 2], 1);
+    }
+
+    for (int i = 1; i <= k / 2; ++i) {  // Check for the pairs and take appropriate count
+        if (i != k - i) {               // Avoid over-counting when k is even
+            ans += max(count[i], count[k - i]);
+        }
+    }
+    return ans;
 }
 
 int main()
@@ -84,7 +93,6 @@ int main()
             continue;
         }
 
-
         for (int i = 0; i < n; i++)
         {
             int s_item = stoi(s_temp[i]);
@@ -109,18 +117,12 @@ int main()
             continue;
         }
 
-        // cout << "The array contains: ";
-        // for (int i = 0; i < n; i++)
-        // {
-        //     cout << s[i] << " ";
-        // }
-
         isInputCorrect = true;
     }
 
     int result = nonDivisibleSubset(k, s);
 
-    fout << result << "\n";
+    cout << result << "\n";
 
     fout.close();
 
